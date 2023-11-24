@@ -1,16 +1,18 @@
 import { LANGUAGES } from "./constants/languages.js";
 import { LABELS } from "./constants/labels.js";
+import { books } from "./constants/books.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Initialization
-    populateLanguageSelector();
-
-    // Variables
-    let books = [];
-
     // DOM Elements
     const addBookForm = document.querySelector('[data-form]');
     const bookList = document.querySelector('[data-books]');
+
+    // Initialization
+    populateLanguageSelector();
+    books.forEach((book, index) => {
+        const bookCard = createBookCard(book, index);
+        bookList.appendChild(bookCard);
+    })
 
     // Event Listeners
     addBookForm.addEventListener('submit', (event) => {
@@ -25,17 +27,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const newBook = addNewBook(...bookData);
         books.push(newBook);
 
-        const bookCard = createBookCard(newBook);
+        const bookCard = createBookCard(newBook, books.length - 1);
         bookList.appendChild(bookCard);
 
         addBookForm.reset();
     })
 
     // Functions
-    function createBookCard(book) {
+    function createBookCard(book, index) {
         const bookCard = document.createElement('div');
         bookCard.classList.add('book-card');
-        bookCard.setAttribute('data-book-index', books.length - 1);
+        bookCard.setAttribute('data-book-index', index);
 
         addBookDetails(bookCard, book);
         addDeleteButton(bookCard);
@@ -44,11 +46,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function addBookDetails(bookCard, book) {
-        Object.values(book).forEach(value => {
-            const bookParagraph = document.createElement('p');
-            bookParagraph.innerText = value;
-            bookCard.appendChild(bookParagraph);
-        });
+        // Title
+        const bookTitle = document.createElement('h3');
+        bookTitle.classList.add('book-title');
+        bookTitle.innerText = book.title;
+        bookCard.appendChild(bookTitle);
+
+        // Author
+        const authorAndPublished = document.createElement('p');
+        authorAndPublished.innerText = `${book.author} | ${book.published}`;
+        bookCard.appendChild(authorAndPublished);
+
+        Object.keys(book).forEach(key => {
+            if (!["title", "author", "published"].includes(key)) {
+                const bookParagraphElement = document.createElement('p');
+                bookParagraphElement.innerText = book[key];
+                bookCard.appendChild(bookParagraphElement);
+            }
+        })
+
     }
 
     function addDeleteButton(bookCard) {
