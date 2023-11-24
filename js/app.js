@@ -1,4 +1,5 @@
 import { LANGUAGES } from "./constants/languages.js";
+import { LABELS } from "./constants/labels.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     // Initialization
@@ -24,52 +25,80 @@ document.addEventListener("DOMContentLoaded", () => {
         const newBook = addNewBook(...bookData);
         books.push(newBook);
 
-        createBookCard(newBook);
+        const bookCard = createBookCard(newBook);
+        bookList.appendChild(bookCard);
 
         addBookForm.reset();
     })
 
     // Functions
     function createBookCard(book) {
-        let bookCard = document.createElement('div');
+        const bookCard = document.createElement('div');
         bookCard.classList.add('book-card');
+        bookCard.setAttribute('data-book-index', books.length - 1);
 
-        let bookIndex = books.length - 1;
-        bookCard.setAttribute('data-book-index', bookIndex);
+        addBookDetails(bookCard, book);
+        addDeleteButton(bookCard);
 
-        bookList.appendChild(bookCard);
+        return bookCard;
+    }
 
+    function addBookDetails(bookCard, book) {
         Object.values(book).forEach(value => {
-            let bookParagraph = document.createElement('p');
-            bookCard.appendChild(bookParagraph);
+            const bookParagraph = document.createElement('p');
             bookParagraph.innerText = value;
+            bookCard.appendChild(bookParagraph);
+        });
+    }
+
+    function addDeleteButton(bookCard) {
+        const deleteBookButton = document.createElement('button');
+        deleteBookButton.classList.add('delete-book');
+        deleteBookButton.setAttribute('type', 'button');
+        deleteBookButton.innerText = LABELS.deleteBook;
+
+        deleteBookButton.addEventListener('click', () => {
+            const bookIndex = parseInt(deleteBookButton.getAttribute('data-book-index'));
+            removeBook(bookIndex);
+            bookCard.remove();
         })
+
+        bookCard.appendChild(deleteBookButton);
+    }
+
+    function Book(title, author, published, language, hasBeenRead) {
+        this.title = title;
+        this.author = author;
+        this.published = published;
+        this.language = language;
+        this.hasBeenRead = hasBeenRead;
+    }
+
+    function addNewBook(title, author, published, language, hasBeenRead) {
+        return new Book(title, author, published, language, hasBeenRead);
+    }
+
+    function removeBook(bookIndex) {
+        if (bookIndex >= 0 && bookIndex < books.length) {
+            books.splice(bookIndex, 1);
+            updateBookIndices();
+        }
+    }
+
+    function updateBookIndices() {
+        document.querySelectorAll('.book-card').forEach((card, index) => {
+            card.setAttribute('data-book-index', index);
+        });
+    }
+
+    function populateLanguageSelector() {
+        const languageSelect = document.querySelector('[data-languages]');
+        LANGUAGES.forEach(lang => {
+            const option = document.createElement('option');
+            option.value = lang.name;
+            option.textContent = lang.name;
+            languageSelect.appendChild(option);
+        });
     }
 })
-
-function Book(title, author, published, language, hasBeenRead) {
-    this.title = title;
-    this.author = author;
-    this.published = published;
-    this.language = language;
-    this.hasBeenRead = hasBeenRead;
-}
-
-function addNewBook(title, author, published, language, hasBeenRead) {
-    return new Book(title, author, published, language, hasBeenRead)
-}
-
-function removeBook(books, bookIndex) {
-    books.splice(bookIndex, 1);
-}
-
-function populateLanguageSelector() {
-    const languageSelect = document.querySelector('[data-languages]');
-    LANGUAGES.forEach(lang => {
-        const option = document.createElement('option');
-        option.value = lang.code;
-        option.textContent = lang.name;
-        languageSelect.appendChild(option);
-    });
-}
 
