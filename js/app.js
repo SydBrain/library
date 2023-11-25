@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // DOM Elements
     const addBookForm = document.querySelector('[data-form]');
     const bookList = document.querySelector('[data-books]');
+    const modal = document.querySelector('.modal');
+    const openModalButton = document.getElementById('openModal');
+    const closeModalOverlay = modal;
 
     // Initialization
     populateLanguageSelector();
@@ -31,9 +34,24 @@ document.addEventListener("DOMContentLoaded", () => {
         bookList.appendChild(bookCard);
 
         addBookForm.reset();
+        toggleModal();
     })
 
+    openModalButton.addEventListener('click', () => {
+        toggleModal();
+    });
+
+    closeModalOverlay.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            toggleModal();
+        }
+    });
+
     // Functions
+    function toggleModal() {
+        modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+    }
+
     function createBookCard(book, index) {
         const bookCard = document.createElement('div');
         bookCard.classList.add('book-card');

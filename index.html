@@ -17,38 +17,38 @@
     <header>
     </header>
     <main>
+        <header>
+            <h1>Library</h1>
+            <button id="openModal">Add New Book</button>
+        </header>
         <section data-books class="book-list">
 
         </section>
-        <form data-form action="#" aria-label="Add New Book Form">
-            <fieldset>
-                <legend>Add New Book</legend>
-
-                <label for="title">Book Title:</label>
-                <input type="text" name="title" id="title" placeholder="Title" required aria-required="true">
-
-                <label for="author">Book's Author:</label>
-                <input type="text" name="author" id="author" placeholder="Author" required aria-required="true">
-
-                <label for="published">Published Date:</label>
-                <input type="date" name="published" id="published" aria-label="Date when the book was published">
-
-                <label for="language">Language:</label>
-                <select data-languages name="language" id="language" aria-label="Select the language of the book">
-                    <option value="" disabled selected hidden>
-                        Select A Language
-                    </option>
-                </select>
-
-                <label for="read">Did you read it?</label>
-                <select name="read" id="read" aria-label="Have you read the book?">
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                </select>
-            </fieldset>
-
-            <input data-submit type="submit" value="Add Book" aria-label="Submit the book details">
-        </form>
+        <div class="modal">
+            <form data-form action="#" aria-label="Add New Book Form">
+                <fieldset>
+                    <legend>Add New Book</legend>
+                    <label for="title">Book Title:</label>
+                    <input type="text" name="title" id="title" placeholder="Title" required aria-required="true">
+                    <label for="author">Book's Author:</label>
+                    <input type="text" name="author" id="author" placeholder="Author" required aria-required="true">
+                    <label for="published">Published Date:</label>
+                    <input type="date" name="published" id="published" aria-label="Date when the book was published">
+                    <label for="language">Language:</label>
+                    <select data-languages name="language" id="language" aria-label="Select the language of the book">
+                        <option value="" disabled selected hidden>
+                            Select A Language
+                        </option>
+                    </select>
+                    <label for="read">Did you read it?</label>
+                    <select name="read" id="read" aria-label="Have you read the book?">
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </fieldset>
+                <input data-submit type="submit" value="Add" aria-label="Submit the book details">
+            </form>
+        </div>
     </main>
 </body>
 

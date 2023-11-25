@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;700&display=swap');
+
+body {
+    font-family: 'Montserrat', 'Arial', sans-serif;
+    background-color: #F0EDEE;
+}
+
+h1 {
+    font-weight: 700;
+}
+
+.book-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.book-card {
+    background-color: #F0EDEE;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.book-title {
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 0.2rem;
+}
+
+.book-card p {
+    font-size: 0.9em;
+    color: #666;
+    line-height: 1.4;
+}
+
+.delete-book {
+    background-color: #ff6347;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-book:hover {
+    background-color: #e55342;
+}
+
+.modal {
+    display: hidden;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form[data-form] {
+    background-color: #FFF;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 31.25rem;
+    /* 500px equivalent */
+}
+
+form[data-form] fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+form[data-form] legend {
+    font-size: 1.5rem;
+    color: #008080;
+    /* Primary Color */
+    margin-bottom: 0.9375rem;
+    /* 15px equivalent */
+}
+
+form[data-form] label {
+    display: block;
+    margin-top: 0.625rem;
+    /* 10px equivalent */
+    color: #708090;
+    /* Detail Color */
+}
+
+form[data-form] input[type="text"],
+form[data-form] input[type="date"],
+form[data-form] select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3125rem;
+    /* 5px equivalent */
+    border: 1px solid #B3DDF2;
+    /* Secondary Color */
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+}
+
+form[data-form] input[type="submit"] {
+    background-color: #008080;
+    /* Primary Color */
+    color: white;
+    padding: 0.625rem 0.9375rem;
+    /* 10px vertical and 15px horizontal */
+    border: none;
+    border-radius: 0.25rem;
+    margin-top: 1.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form[data-form] input[type="submit"]:hover {
+    background-color: #006666;
+    /* Darker Shade of Primary Color */
+}
