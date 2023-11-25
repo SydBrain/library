@@ -50,14 +50,13 @@ h1 {
 }
 
 .modal {
-    display: hidden;
+    display: none;
     background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -69,7 +68,6 @@ form[data-form] {
     box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
     width: 90%;
     max-width: 31.25rem;
-    /* 500px equivalent */
 }
 
 form[data-form] fieldset {
@@ -81,17 +79,13 @@ form[data-form] fieldset {
 form[data-form] legend {
     font-size: 1.5rem;
     color: #008080;
-    /* Primary Color */
     margin-bottom: 0.9375rem;
-    /* 15px equivalent */
 }
 
 form[data-form] label {
     display: block;
     margin-top: 0.625rem;
-    /* 10px equivalent */
     color: #708090;
-    /* Detail Color */
 }
 
 form[data-form] input[type="text"],
@@ -100,19 +94,15 @@ form[data-form] select {
     width: 100%;
     padding: 0.5rem;
     margin-top: 0.3125rem;
-    /* 5px equivalent */
     border: 1px solid #B3DDF2;
-    /* Secondary Color */
     border-radius: 0.25rem;
     box-sizing: border-box;
 }
 
 form[data-form] input[type="submit"] {
     background-color: #008080;
-    /* Primary Color */
     color: white;
     padding: 0.625rem 0.9375rem;
-    /* 10px vertical and 15px horizontal */
     border: none;
     border-radius: 0.25rem;
     margin-top: 1.25rem;
@@ -122,5 +112,4 @@ form[data-form] input[type="submit"] {
 
 form[data-form] input[type="submit"]:hover {
     background-color: #006666;
-    /* Darker Shade of Primary Color */
 }
