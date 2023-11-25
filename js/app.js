@@ -58,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
         bookCard.setAttribute('data-book-index', index);
 
         addBookDetails(bookCard, book);
+        addReadButton(bookCard, book.hasBeenRead);
         addDeleteButton(bookCard);
 
         return bookCard;
@@ -82,9 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 bookParagraphElement.innerText = book[key];
                 bookCard.appendChild(bookParagraphElement);
             }
-            if (key === "hasBeenRead") {
-                addReadButton(bookCard, book[key]);
-            }
         })
 
     }
@@ -96,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
         deleteBookButton.innerText = LABELS.deleteBook;
 
         deleteBookButton.addEventListener('click', () => {
-            const bookIndex = parseInt(deleteBookButton.getAttribute('data-book-index'));
+            const bookIndex = parseInt(bookCard.getAttribute('data-book-index'));
             removeBook(bookIndex);
             bookCard.remove();
         })
@@ -108,6 +106,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const readButton = document.createElement('button');
         readButton.setAttribute('type', 'button');
         readButton.classList.add("btn");
+
+        readButton.addEventListener('click', () => {
+            const bookIndex = parseInt(bookCard.getAttribute('data-book-index'));
+            let hasBeenRead = updateReadStatus(bookIndex);
+            updateReadButtonStyle(readButton, hasBeenRead);
+        })
 
         updateReadButtonStyle(readButton, hasBeenRead);
 
@@ -147,6 +151,13 @@ document.addEventListener("DOMContentLoaded", () => {
             books.splice(bookIndex, 1);
             updateBookIndices();
         }
+    }
+
+    function updateReadStatus(bookIndex) {
+        const book = books[bookIndex];
+        const hasBeenRead = book.hasBeenRead;
+        book.hasBeenRead = !hasBeenRead;
+        return book.hasBeenRead;
     }
 
     function updateBookIndices() {
