@@ -33,15 +33,18 @@
                     <label for="author">Book's Author:</label>
                     <input type="text" name="author" id="author" placeholder="Author" required aria-required="true">
                     <label for="published">Published Date:</label>
-                    <input type="date" name="published" id="published" aria-label="Date when the book was published">
+                    <input type="date" name="published" id="published" aria-label="Date when the book was published"
+                        required aria-required="true">
                     <label for="language">Language:</label>
-                    <select data-languages name="language" id="language" aria-label="Select the language of the book">
+                    <select data-languages name="language" id="language" aria-label="Select the language of the book"
+                        required aria-required="true">
                         <option value="" disabled selected hidden>
                             Select A Language
                         </option>
                     </select>
                     <label for="read">Did you read it?</label>
-                    <select name="read" id="read" aria-label="Have you read the book?">
+                    <select name="read" id="read" aria-label="Have you read the book?" required aria-required="true">
+                        <option value="" disabled selected hidden>Select One Option</option>
                         <option value="true">Yes</option>
                         <option value="false">No</option>
                     </select>
