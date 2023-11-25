@@ -76,10 +76,14 @@ document.addEventListener("DOMContentLoaded", () => {
         bookCard.appendChild(authorAndPublished);
 
         Object.keys(book).forEach(key => {
-            if (!["title", "author", "published"].includes(key)) {
+
+            if (!["title", "author", "published", "hasBeenRead"].includes(key)) {
                 const bookParagraphElement = document.createElement('p');
                 bookParagraphElement.innerText = book[key];
                 bookCard.appendChild(bookParagraphElement);
+            }
+            if (key === "hasBeenRead") {
+                addReadButton(bookCard, book[key]);
             }
         })
 
@@ -87,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function addDeleteButton(bookCard) {
         const deleteBookButton = document.createElement('button');
-        deleteBookButton.classList.add('delete-book');
+        deleteBookButton.classList.add("btn", "delete-book");
         deleteBookButton.setAttribute('type', 'button');
         deleteBookButton.innerText = LABELS.deleteBook;
 
@@ -98,6 +102,32 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
         bookCard.appendChild(deleteBookButton);
+    }
+
+    function addReadButton(bookCard, hasBeenRead) {
+        const readButton = document.createElement('button');
+        readButton.setAttribute('type', 'button');
+        readButton.classList.add("btn");
+
+        updateReadButtonStyle(readButton, hasBeenRead);
+
+        bookCard.appendChild(readButton);
+    }
+
+    function updateReadButtonStyle(readButton, hasBeenRead) {
+        switch (hasBeenRead) {
+            case true:
+                readButton.classList.add("read");
+                readButton.classList.remove("not-read");
+                readButton.innerText = LABELS.read;
+                break;
+
+            case false:
+                readButton.classList.add("not-read")
+                readButton.classList.remove("read");
+                readButton.innerText = LABELS.notRead
+                break;
+        }
     }
 
     function Book(title, author, published, language, hasBeenRead) {

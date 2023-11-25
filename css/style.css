@@ -35,17 +35,32 @@ h1 {
     line-height: 1.4;
 }
 
-.delete-book {
-    background-color: #ff6347;
+.btn {
+    display: block;
     color: white;
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.read {
+    background-color: #47ff63;
     transition: background-color 0.3s ease;
 }
 
-.delete-book:hover {
+.read:hover {
+    background-color: #53d666;
+}
+
+.delete-book,
+.not-read {
+    background-color: #ff6347;
+    transition: background-color 0.3s ease;
+}
+
+.delete-book:hover,
+.not-read:hover {
     background-color: #e55342;
 }
 
