@@ -20,6 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Event Listeners
     addBookForm.addEventListener('submit', (event) => {
         event.preventDefault();
+        if (!validateYear()) {
+            event.preventDefault();
+            alert('Please enter a valid year.');
+            return;
+        }
         const formData = new FormData(event.target);
         const bookData = [];
 
@@ -58,8 +63,16 @@ document.addEventListener("DOMContentLoaded", () => {
         bookCard.setAttribute('data-book-index', index);
 
         addBookDetails(bookCard, book);
-        addReadButton(bookCard, book.hasBeenRead);
-        addDeleteButton(bookCard);
+        const readButton = createReadButton(bookCard, book.hasBeenRead);
+        const deleteButton = createDeleteButton(bookCard);
+
+        const buttonGroup = document.createElement('div');
+        buttonGroup.classList.add('btn-group');
+
+        buttonGroup.appendChild(readButton);
+        buttonGroup.appendChild(deleteButton);
+
+        bookCard.appendChild(buttonGroup);
 
         return bookCard;
     }
@@ -87,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-    function addDeleteButton(bookCard) {
+    function createDeleteButton(bookCard) {
         const deleteBookButton = document.createElement('button');
         deleteBookButton.classList.add("btn", "delete-book");
         deleteBookButton.setAttribute('type', 'button');
@@ -99,10 +112,10 @@ document.addEventListener("DOMContentLoaded", () => {
             bookCard.remove();
         })
 
-        bookCard.appendChild(deleteBookButton);
+        return deleteBookButton;
     }
 
-    function addReadButton(bookCard, hasBeenRead) {
+    function createReadButton(bookCard, hasBeenRead) {
         const readButton = document.createElement('button');
         readButton.setAttribute('type', 'button');
         readButton.classList.add("btn");
@@ -115,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         updateReadButtonStyle(readButton, hasBeenRead);
 
-        bookCard.appendChild(readButton);
+        return readButton;
     }
 
     function updateReadButtonStyle(readButton, hasBeenRead) {
@@ -143,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function addNewBook(title, author, published, language, hasBeenRead) {
-        return new Book(title, author, published, language, hasBeenRead);
+        return new Book(title, author, published, language, hasBeenRead === 'true');
     }
 
     function removeBook(bookIndex) {
@@ -174,6 +187,12 @@ document.addEventListener("DOMContentLoaded", () => {
             option.textContent = lang.name;
             languageSelect.appendChild(option);
         });
+    }
+
+    function validateYear() {
+        const yearInput = document.getElementById('published');
+        const year = yearInput.value;
+        return /^\d{4}$/.test(year);
     }
 })
 

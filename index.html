@@ -19,7 +19,7 @@
     <main>
         <header>
             <h1>Library</h1>
-            <button id="openModal">Add New Book</button>
+            <button id="openModal" class="btn add-book">Add New Book</button>
         </header>
         <section data-books class="book-list">
 
@@ -28,26 +28,31 @@
             <form data-form action="#" aria-label="Add New Book Form">
                 <fieldset>
                     <legend>Add New Book</legend>
-                    <label for="title">Book Title:</label>
+                    <label for="title">Title</label>
                     <input type="text" name="title" id="title" placeholder="Title" required aria-required="true">
-                    <label for="author">Book's Author:</label>
+                    <label for="author">Author</label>
                     <input type="text" name="author" id="author" placeholder="Author" required aria-required="true">
-                    <label for="published">Published Date:</label>
-                    <input type="date" name="published" id="published" aria-label="Date when the book was published"
-                        required aria-required="true">
-                    <label for="language">Language:</label>
+                    <label for="published">Published</label>
+                    <input type="text" name="published" id="published" placeholder="YYYY"
+                        aria-label="Year when the book was published" required aria-required="true" pattern="\d{4}">
+                    <label for="language">Language</label>
                     <select data-languages name="language" id="language" aria-label="Select the language of the book"
                         required aria-required="true">
                         <option value="" disabled selected hidden>
                             Select A Language
                         </option>
                     </select>
-                    <label for="read">Did you read it?</label>
-                    <select name="read" id="read" aria-label="Have you read the book?" required aria-required="true">
-                        <option value="" disabled selected hidden>Select One Option</option>
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
-                    </select>
+                    <label for="read">Have You Read It?</label>
+                    <div id="read">
+                        <div class="radio-group">
+                            <input type="radio" id="read-yes" name="read" value="true" required aria-required="true">
+                            <label for="read-yes">Yes</label>
+                        </div>
+                        <div class="radio-group">
+                            <input type="radio" id="read-no" name="read" value="false">
+                            <label for="read-no">No</label>
+                        </div>
+                    </div>
                 </fieldset>
                 <input data-submit type="submit" value="Add" aria-label="Submit the book details">
             </form>

@@ -2,38 +2,58 @@
 
 body {
     font-family: 'Montserrat', 'Arial', sans-serif;
-    background-color: #F0EDEE;
+    background-color: rgb(59 62 69);
+    color: #F0EDEE;
 }
 
 h1 {
     font-weight: 700;
 }
 
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
 .book-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
     gap: 2rem;
     padding: 1rem;
 }
 
 .book-card {
-    background-color: #F0EDEE;
+    display: flex;
+    color: rgb(59 62 69);
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    width: 200px;
+    gap: 1rem;
+    background-color: #e2e4e8;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     padding: 1rem;
 }
 
+
 .book-title {
     font-size: 1.2em;
-    color: #333;
     margin-bottom: 0.2rem;
 }
 
 .book-card p {
     font-size: 0.9em;
-    color: #666;
+
     line-height: 1.4;
+    margin: 0;
 }
+
 
 .btn {
     display: block;
@@ -42,32 +62,55 @@ h1 {
     padding: 0.5rem 1rem;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 1rem;
+}
+
+.btn-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+
+.add-book {
+    background-color: #007bff;
+    transition: background-color 0.3s ease;
+}
+
+.add-book:hover {
+    background-color: #0056b3;
 }
 
 .read {
-    background-color: #47ff63;
+    background-color: #007bff;
     transition: background-color 0.3s ease;
 }
 
 .read:hover {
-    background-color: #53d666;
+    background-color: #0056b3;
 }
 
-.delete-book,
 .not-read {
+    background-color: #fd7e14;
+    transition: background-color 0.3s ease;
+}
+
+.not-read:hover {
+    background-color: #d76a00;
+}
+
+.delete-book {
     background-color: #ff6347;
     transition: background-color 0.3s ease;
 }
 
-.delete-book:hover,
-.not-read:hover {
+.delete-book:hover {
     background-color: #e55342;
 }
 
 .modal {
     display: none;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.847);
     position: fixed;
     top: 0;
     left: 0;
@@ -94,14 +137,14 @@ form[data-form] fieldset {
 
 form[data-form] legend {
     font-size: 1.5rem;
-    color: #008080;
+    color: #007bff;
     margin-bottom: 0.9375rem;
 }
 
 form[data-form] label {
     display: block;
     margin-top: 0.625rem;
-    color: #708090;
+    color: rgb(59 62 69);
 }
 
 form[data-form] input[type="text"],
@@ -110,13 +153,13 @@ form[data-form] select {
     width: 100%;
     padding: 0.5rem;
     margin-top: 0.3125rem;
-    border: 1px solid #B3DDF2;
+    border: 1px solid rgba(59, 62, 69, 0.395);
     border-radius: 0.25rem;
     box-sizing: border-box;
 }
 
 form[data-form] input[type="submit"] {
-    background-color: #008080;
+    background-color: #007bff;
     color: white;
     padding: 0.625rem 0.9375rem;
     border: none;
@@ -127,5 +170,19 @@ form[data-form] input[type="submit"] {
 }
 
 form[data-form] input[type="submit"]:hover {
-    background-color: #006666;
+    background-color: #0056b3;
+}
+
+form[data-form] .radio-group label {
+    margin: 0;
+}
+
+form[data-form] .radio-group {
+    display: flex;
+
+}
+
+#read {
+    display: flex;
+    gap: 2rem;
 }
