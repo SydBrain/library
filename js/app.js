@@ -1,6 +1,8 @@
 import { LANGUAGES } from "./constants/languages.js";
 import { LABELS } from "./constants/labels.js";
 import { books } from "./constants/books.js";
+import { createBook } from "./book.js";
+import { BookManager, createBookManager } from "./book-manager.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     // DOM Elements
@@ -11,8 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeModalOverlay = modal;
 
     // Initialization
+    const bookManager = createBookManager(books);
     populateLanguageSelector();
-    books.forEach((book, index) => {
+    bookManager.getAllBooks().forEach((book, index) => {
         const bookCard = createBookCard(book, index);
         bookList.appendChild(bookCard);
     })
@@ -32,8 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
             bookData.push(value);
         }
 
-        const newBook = addNewBook(...bookData);
-        books.push(newBook);
+        const newBook = createBook(...bookData);
+        bookManager.addBook(newBook);
 
         const bookCard = createBookCard(newBook, books.length - 1);
         bookList.appendChild(bookCard);
@@ -108,8 +111,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         deleteBookButton.addEventListener('click', () => {
             const bookIndex = parseInt(bookCard.getAttribute('data-book-index'));
-            removeBook(bookIndex);
+            bookManager.removeBook(bookIndex);
             bookCard.remove();
+            updateBookIndices();
         })
 
         return deleteBookButton;
@@ -122,8 +126,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         readButton.addEventListener('click', () => {
             const bookIndex = parseInt(bookCard.getAttribute('data-book-index'));
-            let hasBeenRead = updateReadStatus(bookIndex);
-            updateReadButtonStyle(readButton, hasBeenRead);
+            const book = bookManager.getBook(bookIndex);
+            bookManager.toggleReadStatus(book, book.hasBeenRead);
+            updateReadButtonStyle(readButton, book.hasBeenRead);
         })
 
         updateReadButtonStyle(readButton, hasBeenRead);
@@ -145,32 +150,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 readButton.innerText = LABELS.notRead
                 break;
         }
-    }
-
-    function Book(title, author, published, language, hasBeenRead) {
-        this.title = title;
-        this.author = author;
-        this.published = published;
-        this.language = language;
-        this.hasBeenRead = hasBeenRead;
-    }
-
-    function addNewBook(title, author, published, language, hasBeenRead) {
-        return new Book(title, author, published, language, hasBeenRead === 'true');
-    }
-
-    function removeBook(bookIndex) {
-        if (bookIndex >= 0 && bookIndex < books.length) {
-            books.splice(bookIndex, 1);
-            updateBookIndices();
-        }
-    }
-
-    function updateReadStatus(bookIndex) {
-        const book = books[bookIndex];
-        const hasBeenRead = book.hasBeenRead;
-        book.hasBeenRead = !hasBeenRead;
-        return book.hasBeenRead;
     }
 
     function updateBookIndices() {
