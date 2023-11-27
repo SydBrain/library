@@ -1,8 +1,8 @@
-import { LANGUAGES } from "./constants/languages.js";
 import { LABELS } from "./constants/labels.js";
-import { books } from "./constants/books.js";
+import { BOOKS } from "./constants/books.js";
 import { createBook } from "./book.js";
-import { BookManager, createBookManager } from "./book-manager.js";
+import { createBookManager } from "./book-manager.js";
+import * as utilities from './utilities.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     // DOM Elements
@@ -13,9 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeModalOverlay = modal;
 
     // Initialization
-    const bookManager = createBookManager(books);
-    populateLanguageSelector();
-    bookManager.getAllBooks().forEach((book, index) => {
+    const bookManager = createBookManager(BOOKS);
+    const books = bookManager.getAllBooks();
+
+    utilities.populateLanguageSelector();
+    books.forEach((book, index) => {
         const bookCard = createBookCard(book, index);
         bookList.appendChild(bookCard);
     })
@@ -23,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Event Listeners
     addBookForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        if (!validateYear()) {
+        if (!utilities.validateYear()) {
             event.preventDefault();
             alert('Please enter a valid year.');
             return;
@@ -31,7 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const formData = new FormData(event.target);
         const bookData = [];
 
-        for (let value of formData.values()) {
+        for (let [key, value] of formData.entries()) {
+            if (key === 'read') {
+                value = value === "true";
+            }
             bookData.push(value);
         }
 
@@ -55,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Functions
+
     function toggleModal() {
         modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
     }
@@ -113,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const bookIndex = parseInt(bookCard.getAttribute('data-book-index'));
             bookManager.removeBook(bookIndex);
             bookCard.remove();
-            updateBookIndices();
+            utilities.updateBookIndices();
         })
 
         return deleteBookButton;
@@ -152,26 +157,5 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function updateBookIndices() {
-        document.querySelectorAll('.book-card').forEach((card, index) => {
-            card.setAttribute('data-book-index', index);
-        });
-    }
-
-    function populateLanguageSelector() {
-        const languageSelect = document.querySelector('[data-languages]');
-        LANGUAGES.forEach(lang => {
-            const option = document.createElement('option');
-            option.value = lang.name;
-            option.textContent = lang.name;
-            languageSelect.appendChild(option);
-        });
-    }
-
-    function validateYear() {
-        const yearInput = document.getElementById('published');
-        const year = yearInput.value;
-        return /^\d{4}$/.test(year);
-    }
 })
 

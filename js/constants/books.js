@@ -1,4 +1,4 @@
-export const books = [
+export const BOOKS = [
     {
         title: 'Thus Spoke Zarathustra',
         author: 'Friedrich Nietzsche',

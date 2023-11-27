@@ -1,5 +1,5 @@
 export function createBookManager(initialBooks) {
-    books = initialBooks;
+    const books = initialBooks;
 
     function getAllBooks() {
         return books;
