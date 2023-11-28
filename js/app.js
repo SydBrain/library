@@ -4,9 +4,6 @@ import { createBookManager } from "./book-manager.js";
 import * as utilities from './utilities.js';
 import {
     createBookCard,
-    addBookDetails,
-    createDeleteButton,
-    createReadButton,
     updateReadButtonStyle
 } from './ui-components.js';
 
