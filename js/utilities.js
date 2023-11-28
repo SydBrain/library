@@ -10,12 +10,6 @@ export function populateLanguageSelector() {
     });
 }
 
-export function updateBookIndices() {
-    document.querySelectorAll('.book-card').forEach((card, index) => {
-        card.setAttribute('data-book-index', index);
-    });
-}
-
 export function validateYear() {
     const yearInput = document.getElementById('published');
     const year = yearInput.value;

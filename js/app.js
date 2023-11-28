@@ -3,6 +3,13 @@ import { BOOKS } from "./constants/books.js";
 import { createBook } from "./book.js";
 import { createBookManager } from "./book-manager.js";
 import * as utilities from './utilities.js';
+import {
+    createBookCard,
+    addBookDetails,
+    createDeleteButton,
+    createReadButton,
+    updateReadButtonStyle
+} from './ui-components.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     // DOM Elements
@@ -15,10 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialization
     const bookManager = createBookManager(BOOKS);
     const books = bookManager.getAllBooks();
-
     utilities.populateLanguageSelector();
+
     books.forEach((book, index) => {
-        const bookCard = createBookCard(book, index);
+        const bookCard = createBookCard(book, index, onDelete, onToggleRead);
         bookList.appendChild(bookCard);
     })
 
@@ -41,9 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const newBook = createBook(...bookData);
+        const bookIndex = books.length - 1;
         bookManager.addBook(newBook);
 
-        const bookCard = createBookCard(newBook, books.length - 1);
+        const bookCard = createBookCard(newBook, bookIndex, onDelete, onToggleRead);
         bookList.appendChild(bookCard);
 
         addBookForm.reset();
@@ -60,101 +68,50 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-
     function toggleModal() {
         modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
     }
 
-    function createBookCard(book, index) {
-        const bookCard = document.createElement('div');
-        bookCard.classList.add('book-card');
-        bookCard.setAttribute('data-book-index', index);
+    function onDelete(bookIndex) {
+        console.log("ON DELETE CALLED");
+        bookManager.removeBook(bookIndex);
 
-        addBookDetails(bookCard, book);
-        const readButton = createReadButton(bookCard, book.hasBeenRead);
-        const deleteButton = createDeleteButton(bookCard);
-
-        const buttonGroup = document.createElement('div');
-        buttonGroup.classList.add('btn-group');
-
-        buttonGroup.appendChild(readButton);
-        buttonGroup.appendChild(deleteButton);
-
-        bookCard.appendChild(buttonGroup);
-
-        return bookCard;
-    }
-
-    function addBookDetails(bookCard, book) {
-        // Title
-        const bookTitle = document.createElement('h3');
-        bookTitle.classList.add('book-title');
-        bookTitle.innerText = book.title;
-        bookCard.appendChild(bookTitle);
-
-        // Author
-        const authorAndPublished = document.createElement('p');
-        authorAndPublished.innerText = `${book.author} | ${book.published}`;
-        bookCard.appendChild(authorAndPublished);
-
-        Object.keys(book).forEach(key => {
-
-            if (!["title", "author", "published", "hasBeenRead"].includes(key)) {
-                const bookParagraphElement = document.createElement('p');
-                bookParagraphElement.innerText = book[key];
-                bookCard.appendChild(bookParagraphElement);
-            }
-        })
-
-    }
-
-    function createDeleteButton(bookCard) {
-        const deleteBookButton = document.createElement('button');
-        deleteBookButton.classList.add("btn", "delete-book");
-        deleteBookButton.setAttribute('type', 'button');
-        deleteBookButton.innerText = LABELS.deleteBook;
-
-        deleteBookButton.addEventListener('click', () => {
-            const bookIndex = parseInt(bookCard.getAttribute('data-book-index'));
-            bookManager.removeBook(bookIndex);
+        const bookCard = document.querySelector(`[data-book-index="${bookIndex}"]`);
+        if (bookCard) {
             bookCard.remove();
-            utilities.updateBookIndices();
-        })
-
-        return deleteBookButton;
-    }
-
-    function createReadButton(bookCard, hasBeenRead) {
-        const readButton = document.createElement('button');
-        readButton.setAttribute('type', 'button');
-        readButton.classList.add("btn");
-
-        readButton.addEventListener('click', () => {
-            const bookIndex = parseInt(bookCard.getAttribute('data-book-index'));
-            const book = bookManager.getBook(bookIndex);
-            bookManager.toggleReadStatus(book, book.hasBeenRead);
-            updateReadButtonStyle(readButton, book.hasBeenRead);
-        })
-
-        updateReadButtonStyle(readButton, hasBeenRead);
-
-        return readButton;
-    }
-
-    function updateReadButtonStyle(readButton, hasBeenRead) {
-        switch (hasBeenRead) {
-            case true:
-                readButton.classList.add("read");
-                readButton.classList.remove("not-read");
-                readButton.innerText = LABELS.read;
-                break;
-
-            case false:
-                readButton.classList.add("not-read")
-                readButton.classList.remove("read");
-                readButton.innerText = LABELS.notRead
-                break;
         }
+
+        updateBookIndices();
+        refreshBookList();
+    }
+
+    function onToggleRead(bookIndex) {
+        const book = bookManager.getBook(bookIndex);
+        bookManager.toggleReadStatus(book, book.hasBeenRead);
+
+        const bookCard = document.querySelector(`[data-book-index="${bookIndex}"]`);
+        if (bookCard) {
+            const readButton = bookCard.querySelector(".btn");
+            if (readButton) {
+                updateReadButtonStyle(readButton, book.hasBeenRead);
+            }
+        }
+    }
+
+    function refreshBookList() {
+        while (bookList.firstChild) {
+            bookList.removeChild(bookList.firstChild);
+        }
+        books.forEach((book, index) => {
+            const bookCard = createBookCard(book, index, onDelete, onToggleRead);
+            bookList.appendChild(bookCard);
+        });
+    }
+
+    function updateBookIndices() {
+        document.querySelectorAll('.book-card').forEach((card, index) => {
+            card.setAttribute('data-book-index', index);
+        });
     }
 
 })

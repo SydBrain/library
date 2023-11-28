@@ -99,12 +99,12 @@ header {
     background-color: #d76a00;
 }
 
-.delete-book {
+.delete-button {
     background-color: #ff6347;
     transition: background-color 0.3s ease;
 }
 
-.delete-book:hover {
+.delete-button:hover {
     background-color: #e55342;
 }
 

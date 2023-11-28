@@ -14,7 +14,7 @@ export function createBookManager(initialBooks) {
     }
 
     function removeBook(bookIndex) {
-        if (bookIndex >= 0 && bookIndex < this.books.length) {
+        if (bookIndex >= 0 && bookIndex < books.length) {
             books.splice(bookIndex, 1);
         }
     }
