@@ -1,4 +1,3 @@
-import { LABELS } from "./constants/labels.js";
 import { BOOKS } from "./constants/books.js";
 import { createBook } from "./book.js";
 import { createBookManager } from "./book-manager.js";
@@ -67,6 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
             toggleModal();
         }
     });
+
+    // Functions
 
     function toggleModal() {
         modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
